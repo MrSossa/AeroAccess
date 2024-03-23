@@ -34,6 +34,7 @@ func (r *router) MapRoutes() {
 
 func (r *router) setGroup() {
 	r.rg = r.r.Group("/api/v1")
+	r.rg.Use(CORSMiddleware())
 }
 
 func (r *router) buildPing() {
@@ -49,4 +50,20 @@ func (r *router) buildUserRoutes() {
 	handler := handler.NewUser(service)
 	r.rg.POST("/login", handler.Login)
 	r.rg.POST("/register", handler.SaveUser)
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }
