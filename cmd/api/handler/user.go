@@ -42,7 +42,7 @@ func (u *userController) Login(ctx *gin.Context) {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusAccepted, gin.H{"message": "Login successful"}})
+	ctx.JSON(http.StatusAccepted, gin.H{"message": "Login successful"})
 }
 
 func (u *userController) SaveUser(ctx *gin.Context) {
