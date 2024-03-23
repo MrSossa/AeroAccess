@@ -11,6 +11,7 @@ import (
 
 type UserService interface {
 	Login(user userModel.RequestLogin) (uint, error)
+	SaveUser(user userModel.RequestUser) error
 }
 
 type userService struct {
@@ -35,4 +36,10 @@ func (s *userService) Login(user userModel.RequestLogin) (uint, error) {
 	}
 	//level, err := s.repository.GetAccessLevel(id)
 	return 1, nil
+}
+
+func (s *userService) SaveUser(user userModel.RequestUser) error {
+	passHash := sha256.Sum256([]byte(user.Password))
+	passString := hex.EncodeToString(passHash[:])
+	return s.repository.SaveUser(user.User, passString, user.Name)
 }

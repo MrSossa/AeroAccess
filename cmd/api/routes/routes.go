@@ -48,4 +48,5 @@ func (r *router) buildUserRoutes() {
 	service := user.NewUserService(repo)
 	handler := handler.NewUser(service)
 	r.rg.POST("/login", handler.Login)
+	r.rg.POST("/register", handler.SaveUser)
 }

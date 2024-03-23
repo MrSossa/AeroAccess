@@ -10,6 +10,7 @@ import (
 type UserRepository interface {
 	GetUserPassword(user string) (uint, string, error)
 	GetAccessLevel(id uint) (uint, error)
+	SaveUser(user, password, name string) error
 }
 
 type userRepository struct {
@@ -36,8 +37,8 @@ func (r *userRepository) GetUserPassword(user string) (uint, string, error) {
 	return id, password, nil
 }
 
-func (r *userRepository) SaveUser(user, password, nombre string) error {
-	_, err := r.db.Exec("INSERT INTO usuarios (user, pass,nombre) VALUES (?, ?,?)", user, password, nombre)
+func (r *userRepository) SaveUser(user, password, name string) error {
+	_, err := r.db.Exec("INSERT INTO usuarios (user, pass,nombre) VALUES (?, ?,?)", user, password, name)
 	if err != nil {
 		return err
 	}
