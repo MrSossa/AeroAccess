@@ -33,8 +33,8 @@ func (r *router) MapRoutes() {
 }
 
 func (r *router) setGroup() {
+	r.r.Use(CORSMiddleware())
 	r.rg = r.r.Group("/api/v1")
-	r.rg.Use(CORSMiddleware())
 }
 
 func (r *router) buildPing() {
